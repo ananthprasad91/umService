@@ -1,0 +1,57 @@
+swagger: "2.0"
+info:
+ 
+  version: "1.0.0"
+  title: "User Management"
+  
+host: "petstore.swagger.io"
+basePath: "/v2"
+tags:
+- name: "User"
+  description: "Registration User"
+  
+schemes:
+- "https"
+- "http"
+paths:
+ 
+  /user:
+    post:
+      tags:
+      - "user"
+      summary: "Register user"
+      description: "Creating new User"
+      operationId: "RegisterUser"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Registration user object"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        201:
+          description: "New User Registered Successfully"
+        404:
+          description: "Invalid Request Data"
+  
+definitions:
+  User:
+    type: "object"
+    properties:
+      firstName:
+        type: "string"
+      lastName:
+        type: "string"
+      email:
+        type: "string"
+      password:
+        type: "string"
+      phoneNumber:
+        type: "string"
+    xml:
+      name: "User"
+  
