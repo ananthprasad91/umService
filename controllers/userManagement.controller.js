@@ -66,7 +66,7 @@ async function login(req, res) {
     }
     else {
       //If Valid Password Generate Token
-      const token = await jwt.sign({ _id: user._id }, SECRET, { expiresIn: '2m' })
+      const token = await jwt.sign({ _id: user._id }, SECRET, { expiresIn: '1d' })
       if (token) {
         return res.header('auth-token', token)
           .send({ token: token })
