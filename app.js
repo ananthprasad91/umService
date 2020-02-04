@@ -31,8 +31,8 @@ app.use(bodyParser.json({strict: false}))
 app.use(cookieParser())
 
 
-
-app.use('api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+//Swagger Documentation
+app.use('/api/um/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use('/api/um', userRoutes)
 

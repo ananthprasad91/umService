@@ -4,26 +4,44 @@ info:
   version: "1.0.0"
   title: "User Management"
   
-host: "petstore.swagger.io"
-basePath: "/v2"
+host: "localhost:4000/api"
+basePath: "/um"
 tags:
-- name: "User"
-  description: "Registration User"
+- name: "User Management"
   
 schemes:
-- "https"
 - "http"
 paths:
  
-  /user:
+  /register:
     post:
       tags:
-      - "user"
-      summary: "Register user"
-      description: "Creating new User"
+      - "User Management"
+      summary: "Create new User"
+      description: "Register a new user in the system"
       operationId: "RegisterUser"
       produces:
-      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "User object to create new user"
+        required: true
+        schema:
+          $ref: "#/definitions/NewUser"
+      responses:
+        201:
+          description: "New User Registered Successfully"
+        400:
+          description: "Invalid Request Data"
+  /login:
+    post:
+      tags:
+      - "User Management"
+      summary: "Login in to App"
+      description: "Login with already existing user details"
+      operationId: "LoginUser"
+      produces:
       - "application/json"
       parameters:
       - in: "body"
@@ -33,13 +51,13 @@ paths:
         schema:
           $ref: "#/definitions/User"
       responses:
-        201:
-          description: "New User Registered Successfully"
-        404:
+        200:
+          description: "Successfull Login with jwt token"
+        400:
           description: "Invalid Request Data"
   
 definitions:
-  User:
+  NewUser:
     type: "object"
     properties:
       firstName:
@@ -51,6 +69,15 @@ definitions:
       password:
         type: "string"
       phoneNumber:
+        type: "string"
+    xml:
+      name: "User"
+  User:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+      password:
         type: "string"
     xml:
       name: "User"
