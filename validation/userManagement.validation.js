@@ -1,8 +1,6 @@
 const Joi = require('joi')
 
 const registerValidation = (userData) => {
-    console.log("Hit vali")
-    console.log(userData)
     const registerSchema = {
         email: Joi.string()
             .required()

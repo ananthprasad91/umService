@@ -61,14 +61,14 @@ async function login(req, res) {
     //Authenticate Password
     const validPass = await bcrypt.compare(password, user.password)
     if (!validPass) {
-      return res.status(400)
+      return res.status(401)
         .send({ message: "Your Email or Password is Invalid" })
     }
     else {
       //If Valid Password Generate Token
       const token = await jwt.sign({ _id: user._id }, SECRET, { expiresIn: '1d' })
       if (token) {
-        return res.header('auth-token', token)
+        return res.status(200)
           .send({ token: token })
       }
     }
