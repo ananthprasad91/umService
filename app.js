@@ -3,12 +3,23 @@ const logger = require('morgan')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const bodyParser = require('body-parser')
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
+const passport = require('passport')
+const JwtStrategy = require('passport-jwt').Strategy
+const ExtractJwt = require('passport-jwt').ExtractJwt
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
+
 const userRoutes = require('./routes/index')
 const { connectDB } = require('./utils/mongodb')
 const { resourceNotFound, accessDenied } = require('./controllers/userManagement.controller')
-const swaggerUi = require('swagger-ui-express');
-const YAML = require('yamljs');
 const swaggerDocument = YAML.load('./docs/swagger.yaml');
+
+const DATA = [ // should be a database or something persistant
+    {email:"test@gmail.com", password:"1234"}, // user data from email-password
+    {email:"test2@gmail.com", provider:"facebook"} // user data from OAuth has no password
+  ]
 
 const app = express()
 
@@ -19,14 +30,14 @@ const db = require('./config/keys').MongoURI
 connectDB(db)
 
 //Log
-app.use(logger('dev'))
+app.use(logger())
 
 //CORS
 app.use(cors())
 
 //BodyParser
-app.use(bodyParser.urlencoded({extended: true}))
-app.use(bodyParser.json({strict: false}))
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json({ strict: false }))
 
 app.use(cookieParser())
 
